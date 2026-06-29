@@ -194,3 +194,31 @@ clean: down-v ## Stop services, remove volumes, prune images
 
 fix-crlf: ## Convert CRLF to LF in all text files
 	find . -path ./.git -prune -o -type f \( -name "*.md" -o -name "*.yml" -o -name "*.php" -o -name "*.js" -o -name "*.vue" -o -name "*.css" -o -name "*.json" -o -name "Makefile" -o -name ".gitignore" -o -name ".gitattributes" \) -print -exec sed -i 's/\r$$//' {} \;
+
+# ===========================================================================
+##@ Git & PR
+# ===========================================================================
+
+.PHONY: branch commit pr
+
+branch: ## Create a new branch from development (name=)
+ifndef name
+	$(error Usage: make branch name="config/BTDA-XXX-description")
+endif
+	git checkout development
+	git pull
+	git checkout -b $(name)
+
+commit: ## Stage all, commit, and push (msg=)
+ifndef msg
+	$(error Usage: make commit msg="type(BTDA-XXX): description")
+endif
+	git add .
+	git commit -m "$(msg)"
+	git push -u origin $$(git branch --show-current)
+
+pr: ## Create a PR to development (title= body=)
+ifndef title
+	$(error Usage: make pr title="BTDA-XXX - Description" body="Short summary")
+endif
+	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)"
