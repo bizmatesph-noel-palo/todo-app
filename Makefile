@@ -221,4 +221,4 @@ pr: ## Create a PR to development (title= body=)
 ifndef title
 	$(error Usage: make pr title="BTDA-XXX - Description" body="Short summary")
 endif
-	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)"
+	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)" --label "kiro-generated"
