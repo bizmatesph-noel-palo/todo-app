@@ -74,7 +74,7 @@ make restart        # Restart all services
 make reset          # Full teardown + rebuild (removes volumes)
 make ps             # List running containers
 make logs           # Follow container logs
-make shell          # Open shell in PHP container
+make shell          # Open shell in PHP containe
 ```
 
 ### Package Managers
@@ -108,10 +108,10 @@ make cache-clear    # Clear all Laravel caches
 - [x] Task CRUD (create, read, update, delete)
 - [x] API endpoints (`/api/tasks`)
 - [x] Repository + Service pattern
-- [x] Vue 3 SPA with Vue Router
+- [x] Vue 3 SPA with Vue Route
 - [x] User authentication (Laravel Breeze)
 - [ ] API auth middleware (Sanctum)
-- [ ] Tasks scoped to user
+- [ ] Tasks scoped to use
 - [ ] User Roles & Permissions
 - [ ] Task filtering & search
 - [ ] Dashboard with Charts and/or Tables for User Task data
