@@ -1,0 +1,65 @@
+name: Kiro PR Metrics Tracker
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  calculate-metrics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Calculate Lines
+        id: metrics
+        run: |
+          BASE="${{ github.base_ref }}"
+          HEAD="${{ github.head_ref }}"
+
+          # Total lines added in PR
+          TOTAL_LINES=$(git diff origin/$BASE...origin/$HEAD --numstat | awk '{ add += $1 } END { print add }')
+          TOTAL_LINES=${TOTAL_LINES:-0}
+
+          # Kiro lines (commits with co-author trailer)
+          KIRO_LINES=$(git log origin/$BASE..origin/$HEAD --grep="Co-authored-by: Kiro AI" --pretty=tformat: --numstat | awk '{ add += $1 } END { print add }')
+          KIRO_LINES=${KIRO_LINES:-0}
+
+          # Dev lines = total - kiro
+          DEV_LINES=$((TOTAL_LINES - KIRO_LINES))
+          if [ $DEV_LINES -lt 0 ]; then DEV_LINES=0; fi
+
+          # Calculate percentages
+          if [ $TOTAL_LINES -gt 0 ]; then
+            KIRO_PCT=$(echo "scale=1; $KIRO_LINES * 100 / $TOTAL_LINES" | bc)
+            DEV_PCT=$(echo "scale=1; $DEV_LINES * 100 / $TOTAL_LINES" | bc)
+          else
+            KIRO_PCT=0
+            DEV_PCT=0
+          fi
+
+          echo "TOTAL_LINES=$TOTAL_LINES" >> $GITHUB_ENV
+          echo "KIRO_LINES=$KIRO_LINES" >> $GITHUB_ENV
+          echo "DEV_LINES=$DEV_LINES" >> $GITHUB_ENV
+          echo "KIRO_PCT=$KIRO_PCT" >> $GITHUB_ENV
+          echo "DEV_PCT=$DEV_PCT" >> $GITHUB_ENV
+
+      - name: Post Comment to PR
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ### 📊 Code Contribution Metrics
+
+            | Metric | Lines | Percentage |
+            |--------|-------|-----------|
+            | **Total PR lines** | `${{ env.TOTAL_LINES }}` | 100% |
+            | **Kiro AI** | `${{ env.KIRO_LINES }}` | ${{ env.KIRO_PCT }}% |
+            | **Developer** | `${{ env.DEV_LINES }}` | ${{ env.DEV_PCT }}% |
+
+            *Kiro contributions identified via `Co-authored-by: Kiro AI` commit trailer.*
