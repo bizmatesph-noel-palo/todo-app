@@ -187,7 +187,10 @@ ps: ## List running containers with status
 ##@ Maintenance
 # ===========================================================================
 
-.PHONY: clean
+.PHONY: clean fix-crlf
 
 clean: down-v ## Stop services, remove volumes, prune images
 	docker image prune -f
+
+fix-crlf: ## Convert CRLF to LF in all text files
+	find . -path ./.git -prune -o -type f \( -name "*.md" -o -name "*.yml" -o -name "*.php" -o -name "*.js" -o -name "*.vue" -o -name "*.css" -o -name "*.json" -o -name "Makefile" -o -name ".gitignore" -o -name ".gitattributes" \) -print -exec sed -i 's/\r$$//' {} \;
