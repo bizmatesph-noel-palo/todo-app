@@ -1,5 +1,7 @@
 # Biz Todo App
 
+![CI Build](https://github.com/bizmatesph-noel-palo/todo-app/actions/workflows/ci-build.yml/badge.svg)
+
 > A task management web application built with Laravel 8, Vue.js 3, and Tailwind CSS.
 > Dockerized using the DLT (Docker Laravel Template) pattern.
 
