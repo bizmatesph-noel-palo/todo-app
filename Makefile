@@ -199,7 +199,7 @@ fix-crlf: ## Convert CRLF to LF in all text files
 ##@ Git & PR
 # ===========================================================================
 
-.PHONY: branch commit pr
+.PHONY: branch commit commit-kiro pr
 
 branch: ## Create a new branch from development (name=)
 ifndef name
@@ -217,8 +217,16 @@ endif
 	git commit -m "$(msg)"
 	git push -u origin $$(git branch --show-current)
 
+commit-kiro: ## Stage all, commit with Kiro co-author, and push (msg=)
+ifndef msg
+	$(error Usage: make commit-kiro msg="type(BTDA-XXX): description")
+endif
+	git add .
+	git commit -m "$(msg)" -m "Co-authored-by: Kiro AI <kiro-ai@users.noreply.github.com>"
+	git push -u origin $$(git branch --show-current)
+
 pr: ## Create a PR to development (title= body=)
 ifndef title
 	$(error Usage: make pr title="BTDA-XXX - Description" body="Short summary")
 endif
-	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)" --label "kiro-generated"
+	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)"
