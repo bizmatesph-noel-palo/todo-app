@@ -112,4 +112,6 @@ make cache-clear    # Clear all Laravel caches
 - [x] User authentication (Laravel Breeze)
 - [ ] API auth middleware (Sanctum)
 - [ ] Tasks scoped to user
+- [ ] User Roles & Permissions
 - [ ] Task filtering & search
+- [ ] Dashboard with Charts and/or Tables for User Task data
