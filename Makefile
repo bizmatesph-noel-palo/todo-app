@@ -199,7 +199,7 @@ fix-crlf: ## Convert CRLF to LF in all text files
 ##@ Git & PR
 # ===========================================================================
 
-.PHONY: branch commit pr
+.PHONY: branch commit commit-kiro pr
 
 branch: ## Create a new branch from development (name=)
 ifndef name
@@ -230,9 +230,3 @@ ifndef title
 	$(error Usage: make pr title="BTDA-XXX - Description" body="Short summary")
 endif
 	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)"
-
-pr-kiro: ## Create a PR to development with kiro-generated label (title= body=)
-ifndef title
-	$(error Usage: make pr-kiro title="BTDA-XXX - Description" body="Short summary")
-endif
-	gh pr create --base development --title "$(title)" --body "$(or $(body),No description provided)" --label "kiro-generated"

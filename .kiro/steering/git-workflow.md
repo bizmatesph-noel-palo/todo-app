@@ -28,15 +28,16 @@ Each task (spec task, feature, or fix) follows this cycle with human oversight a
 - Wait for explicit approval
 - Commit with message: `type(BTDA-XXX): description`
 - Push to remote
+- Always use `make commit-kiro` for Kiro-driven work (adds co-author trailer)
+- Human uses `make commit` (no co-author)
 
 ### 5. PR Gate
 - Ask: "Ready for PR?"
 - Wait for explicit approval
-- Provide the `make pr` command:
+- Create PR using:
   ```bash
   make pr title="BTDA-XXX - Description" body="type(BTDA-XXX): summary of changes"
   ```
-- Human runs the command (Kiro cannot execute WSL commands reliably)
 
 ### 6. Merge (Human Only)
 - Human reviews PR on GitHub
@@ -60,8 +61,11 @@ Each task (spec task, feature, or fix) follows this cycle with human oversight a
 # Create branch
 make branch name="{type}/BTDA-XXX-description"
 
-# Commit and push
+# Commit and push (human)
 make commit msg="type(BTDA-XXX): description"
+
+# Commit and push (Kiro — adds co-author trailer)
+make commit-kiro msg="type(BTDA-XXX): description"
 
 # Create PR
 make pr title="BTDA-XXX - Description" body="type(BTDA-XXX): summary"
