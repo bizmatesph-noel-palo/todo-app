@@ -1,5 +1,5 @@
 # ==================================
-# IDE & Editor
+# IDE & Edito
 # ==================================
 /.idea
 /.vscode
@@ -11,7 +11,7 @@
 # ==================================
 .DS_Store
 Thumbs.db
-*Zone.Identifier
+*Zone.Identifie
 
 # ==================================
 # Docker - Environment secrets
@@ -36,7 +36,7 @@ npm-debug.log
 yarn-error.log
 
 # ==================================
-# PHP / Composer
+# PHP / Compose
 # ==================================
 /src/vendor/
 .phpunit.result.cache

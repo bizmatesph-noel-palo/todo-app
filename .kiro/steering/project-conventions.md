@@ -33,6 +33,12 @@ All branches, commits, and issues use the `BTDA` project code for traceability.
 - **Squash merge** on feature branches into development
 - **Regular merge** from development into master (preserves integration history)
 
+### Branch Rules
+- `master` — accepts PRs from `development` ONLY. No feature branches directly.
+- `development` — accepts PRs from any `feature/`, `fix/`, `config/`, `design/`, `refactor/`, `test/` branch.
+- Feature branches — branch from `development`. If there's a dependency on another feature branch that hasn't been merged yet, branch from that feature branch instead.
+- Always PR to `development`. Never PR to `master` (except from `development`).
+
 ### Commit Format
 ```
 type(BTDA-XXX): short description
