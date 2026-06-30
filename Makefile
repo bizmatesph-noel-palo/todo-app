@@ -221,9 +221,21 @@ endif
 	git commit -m "$(msg)"
 	git push -u origin $$(git branch --show-current)
 
-commit-kiro: ## Stage all, commit with Kiro co-author, and push (msg=)
+commit-kiro: ## Stage all, commit as Kiro (author=Kiro, committer=human), and push (msg=)
 ifndef msg
 	$(error Usage: make commit-kiro msg="type(BTDA-XXX): description")
+endif
+	@if [ "$$(git branch --show-current)" = "development" ] || [ "$$(git branch --show-current)" = "master" ]; then \
+		echo "ERROR: Cannot commit directly to $$(git branch --show-current). Switch to a feature branch first."; \
+		exit 1; \
+	fi
+	git add .
+	git commit -m "$(msg)" --author="Kiro AI <kiro-ai@users.noreply.github.com>"
+	git push -u origin $$(git branch --show-current)
+
+commit-assisted: ## Stage all, commit as human with Kiro co-author, and push (msg=)
+ifndef msg
+	$(error Usage: make commit-assisted msg="type(BTDA-XXX): description")
 endif
 	@if [ "$$(git branch --show-current)" = "development" ] || [ "$$(git branch --show-current)" = "master" ]; then \
 		echo "ERROR: Cannot commit directly to $$(git branch --show-current). Switch to a feature branch first."; \

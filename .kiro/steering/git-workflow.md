@@ -61,15 +61,26 @@ Each task (spec task, feature, or fix) follows this cycle with human oversight a
 # Create branch
 make branch name="{type}/BTDA-XXX-description"
 
-# Commit and push (human)
+# Commit: human only (no AI attribution)
 make commit msg="type(BTDA-XXX): description"
 
-# Commit and push (Kiro — adds co-author trailer)
+# Commit: Kiro-driven (author=Kiro, committer=human)
 make commit-kiro msg="type(BTDA-XXX): description"
+
+# Commit: AI-assisted (author=human, co-author=Kiro)
+make commit-assisted msg="type(BTDA-XXX): description"
 
 # Create PR
 make pr title="BTDA-XXX - Description" body="type(BTDA-XXX): summary"
 ```
+
+## Attribution Levels
+
+| Command | Author | Co-Author | When to use |
+|---------|--------|-----------|-------------|
+| `make commit` | Human | — | 100% human work |
+| `make commit-kiro` | Kiro AI | — | Kiro wrote the code, human reviewed/approved |
+| `make commit-assisted` | Human | Kiro AI | Human drove, Kiro helped (suggestions, completions) |
 
 ## Rules
 
